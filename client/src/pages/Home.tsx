@@ -10,6 +10,8 @@ import { useTestimonials } from "@/hooks/use-testimonials";
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
 import splashVideo from "@assets/vedio_1767300785946.mp4";
+import mobileSplashImg from "@assets/mobile_splash_v3.png";
+import logo from "@assets/logo_1767381786801.png";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
 
@@ -22,6 +24,16 @@ export default function Home() {
   const { toast } = useToast();
   const [newsletterEmail, setNewsletterEmail] = useState("");
   const [isSubscribing, setIsSubscribing] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   const handleNewsletterSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -254,20 +266,201 @@ export default function Home() {
             initial={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 1 }}
-            onAnimationComplete={() => window.scrollTo(0, 0)}
-            className="fixed inset-0 z-[100] bg-black flex items-center justify-center overflow-hidden"
+            onAnimationComplete={() => {
+              window.scrollTo(0, 0);
+              // Ensure we don't accidentally scroll during splash
+            }}
+            className="fixed inset-0 z-[100] bg-black overflow-hidden pointer-events-auto"
+            style={{ height: '100dvh' } as any}
           >
-            <video
-              autoPlay
-              muted
-              onEnded={() => setShowSplash(false)}
-              className="w-full h-full object-cover"
-            >
-              <source src={splashVideo} type="video/mp4" />
-            </video>
+            {isMobile ? (
+              /* MOBILE SPLASH V3 - CINEMATIC MOTION DESIGN */
+              <div className="relative w-full h-full flex flex-col items-center justify-center bg-[#050608] overflow-hidden">
+                {/* Layer 1: Parallax Background */}
+                <motion.div
+                  initial={{ scale: 1.4, opacity: 0, rotate: -5 }}
+                  animate={{ scale: 1, opacity: 0.8, rotate: 0 }}
+                  transition={{ duration: 3, ease: [0.16, 1, 0.3, 1] }}
+                  className="absolute inset-0"
+                >
+                  <img
+                    src={mobileSplashImg}
+                    className="w-full h-full object-cover"
+                    alt="Background"
+                  />
+                </motion.div>
+
+                {/* Layer 2: Animated Gradient Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/20 to-black/80" />
+
+                {/* Layer 3: Dynamic Particles (CSS-based simulation) */}
+                <div className="absolute inset-0 pointer-events-none">
+                  {[...Array(15)].map((_, i) => (
+                    <motion.div
+                      key={i}
+                      initial={{
+                        x: Math.random() * 100 + "%",
+                        y: Math.random() * 100 + "%",
+                        opacity: 0,
+                        scale: 0
+                      }}
+                      animate={{
+                        y: ["-10%", "110%"],
+                        opacity: [0, 1, 0],
+                        scale: [0, 1, 0]
+                      }}
+                      transition={{
+                        duration: 5 + Math.random() * 5,
+                        repeat: Infinity,
+                        delay: Math.random() * 5,
+                        ease: "linear"
+                      }}
+                      className="absolute w-1 h-1 bg-primary/40 rounded-full blur-[1px]"
+                    />
+                  ))}
+                </div>
+
+                {/* Layer 4: Floating Content Wrapper */}
+                <motion.div
+                  initial={{ scale: 0.9, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  transition={{ delay: 0.5, duration: 1.2, ease: [0.34, 1.56, 0.64, 1] }}
+                  className="relative z-10 flex flex-col items-center"
+                >
+                  {/* Advanced Logo Ring */}
+                  <div className="w-32 h-32 mb-8 relative">
+                    <motion.div
+                      animate={{
+                        rotate: 360,
+                        scale: [1, 1.05, 1],
+                        opacity: [0.3, 0.6, 0.3]
+                      }}
+                      transition={{
+                        rotate: { duration: 15, repeat: Infinity, ease: "linear" },
+                        scale: { duration: 3, repeat: Infinity, ease: "easeInOut" },
+                        opacity: { duration: 3, repeat: Infinity, ease: "easeInOut" }
+                      }}
+                      className="absolute inset-[-15px] rounded-full border border-primary/20 bg-primary/5 blur-sm"
+                    />
+                    <motion.div
+                      initial={{ rotate: -180, opacity: 0 }}
+                      animate={{ rotate: 0, opacity: 1 }}
+                      transition={{ delay: 1, duration: 1, type: "spring" }}
+                      className="absolute inset-0 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl flex items-center justify-center p-4 shadow-2xl shadow-primary/20"
+                    >
+                      <img
+                        src={logo}
+                        alt="Logo"
+                        className="w-full h-full object-contain drop-shadow-[0_0_10px_rgba(0,168,150,0.5)]"
+                      />
+                    </motion.div>
+                  </div>
+
+                  {/* Staggered Typography */}
+                  <div className="flex flex-col items-center">
+                    <motion.div
+                      initial={{ y: 20, opacity: 0 }}
+                      animate={{ y: 0, opacity: 1 }}
+                      transition={{ delay: 1.4, duration: 0.8 }}
+                    >
+                      <h1 className="text-6xl font-display font-black text-white tracking-tighter flex items-center gap-1">
+                        <span className="text-primary text-glow">A</span>
+                        <span className="relative">
+                          pexora
+                          <motion.span
+                            initial={{ scaleX: 0 }}
+                            animate={{ scaleX: 1 }}
+                            transition={{ delay: 2, duration: 1, ease: "circOut" }}
+                            className="absolute -bottom-1 left-0 right-0 h-[2px] bg-gradient-to-r from-primary to-transparent origin-left"
+                          />
+                        </span>
+                      </h1>
+                    </motion.div>
+
+                    <motion.p
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 0.5, y: 0 }}
+                      transition={{ delay: 2.2, duration: 1 }}
+                      className="text-[10px] text-white uppercase tracking-[0.6em] mt-6 font-black"
+                    >
+                      The Future of Development
+                    </motion.p>
+                  </div>
+                </motion.div>
+
+                {/* Layer 5: High-End Progress Bar */}
+                <div className="absolute bottom-24 left-16 right-16 z-10">
+                  <div className="text-[10px] text-white/30 uppercase tracking-[0.4em] font-bold mb-4 text-center">
+                    System Loading
+                  </div>
+                  <div className="h-[2px] w-full bg-white/5 rounded-full overflow-hidden border-x border-white/10 relative">
+                    {/* Glowing background bar */}
+                    <div className="absolute inset-0 bg-primary/20 blur-[1px]" />
+
+                    {/* Main progress handler */}
+                    <motion.div
+                      initial={{ left: "-100%" }}
+                      animate={{ left: "0%" }}
+                      transition={{ duration: 4.5, ease: [0.65, 0, 0.35, 1] }}
+                      onAnimationComplete={() => setShowSplash(false)}
+                      className="absolute top-0 bottom-0 w-full bg-gradient-to-r from-transparent via-primary to-transparent"
+                    >
+                      {/* Leading edge glow */}
+                      <div className="absolute right-0 top-1/2 -translate-y-1/2 w-8 h-4 bg-primary blur-md rounded-full opacity-50" />
+                    </motion.div>
+                  </div>
+
+                  {/* Counter */}
+                  <div className="mt-4 flex justify-between items-center px-1">
+                    <motion.span
+                      animate={{ opacity: [0.2, 0.5, 0.2] }}
+                      transition={{ duration: 1, repeat: Infinity }}
+                      className="text-[8px] text-white/50 font-mono"
+                    >
+                      0xBF45
+                    </motion.span>
+                    <motion.span
+                      animate={{ opacity: [0.2, 0.5, 0.2] }}
+                      transition={{ duration: 1, repeat: Infinity, delay: 0.5 }}
+                      className="text-[8px] text-white/50 font-mono"
+                    >
+                      STABLE
+                    </motion.span>
+                  </div>
+                </div>
+
+                {/* Shutter Close Effect on Exit */}
+                <motion.div
+                  initial={{ scaleY: 0 }}
+                  exit={{ scaleY: 1 }}
+                  transition={{ duration: 0.5, ease: "circIn" }}
+                  className="absolute inset-0 bg-black z-[101] origin-top pointer-events-none"
+                />
+              </div>
+            ) : (
+              /* DESKTOP SPLASH (Old Video) */
+              <>
+                <video
+                  autoPlay
+                  muted
+                  playsInline
+                  onEnded={() => setShowSplash(false)}
+                  className="absolute inset-0 w-full h-full object-cover"
+                  style={{
+                    width: '100vw',
+                    height: '100dvh',
+                    objectFit: 'cover'
+                  } as any}
+                >
+                  <source src={splashVideo} type="video/mp4" />
+                </video>
+                <div className="absolute inset-0 bg-black/10 pointer-events-none" />
+              </>
+            )}
+
             <button
               onClick={() => setShowSplash(false)}
-              className="absolute bottom-10 right-10 text-white/50 hover:text-white text-sm uppercase tracking-widest transition-colors font-bold z-20"
+              className="absolute bottom-12 left-1/2 -translate-x-1/2 px-8 py-3.5 bg-white/10 hover:bg-white/20 backdrop-blur-xl border border-white/20 rounded-full text-white text-xs uppercase tracking-[0.2em] transition-all font-bold z-20 whitespace-nowrap shadow-[0_0_30px_rgba(0,0,0,0.5)] active:scale-95"
             >
               Skip Intro
             </button>
@@ -294,7 +487,7 @@ export default function Home() {
             <div className="inline-block px-4 py-1.5 rounded-full border border-primary/30 bg-primary/10 text-primary text-sm font-semibold mb-6">
               INNOVATING THE FUTURE
             </div>
-            <h1 className="text-5xl md:text-7xl font-display font-bold leading-tight mb-6">
+            <h1 className="text-4xl md:text-7xl font-display font-bold leading-tight mb-6 mt-4">
               Transform Your Ideas Into <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary min-h-[1.2em] inline-block">
                 {currentText}
@@ -305,17 +498,17 @@ export default function Home() {
               We build exceptional digital products that empower businesses to scale, innovate, and lead in the digital era.
             </p>
 
-            <div className="flex flex-col sm:flex-row gap-4">
+            <div className="flex flex-col sm:flex-row gap-4 mt-8">
               <button
                 onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
-                className="px-8 py-4 rounded-full bg-primary text-black font-bold text-lg hover:bg-white transition-all shadow-[0_0_20px_rgba(0,168,150,0.3)] hover:shadow-[0_0_40px_rgba(0,168,150,0.5)] flex items-center justify-center gap-2 group"
+                className="px-8 py-4 md:py-4 rounded-full bg-primary text-black font-bold text-lg hover:bg-white transition-all shadow-[0_0_20px_rgba(0,168,150,0.3)] hover:shadow-[0_0_40px_rgba(0,168,150,0.5)] flex items-center justify-center gap-2 group"
               >
                 Start Project
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </button>
               <button
                 onClick={() => document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' })}
-                className="px-8 py-4 rounded-full border border-white/20 text-white font-bold text-lg hover:bg-white/10 transition-all backdrop-blur-sm"
+                className="px-8 py-4 md:py-4 rounded-full border border-white/20 text-white font-bold text-lg hover:bg-white/10 transition-all backdrop-blur-sm"
               >
                 Our Expertise
               </button>
@@ -462,7 +655,7 @@ export default function Home() {
                   <motion.div
                     initial={{ opacity: 0, scale: 0.95 }}
                     whileInView={{ opacity: 1, scale: 1 }}
-                    className="glass-panel p-8 md:p-12 text-center relative border border-white/10 hover:border-primary/30 transition-all group overflow-hidden rounded-[2.5rem]"
+                    className="glass-panel p-6 md:p-12 text-center relative border border-white/10 hover:border-primary/30 transition-all group overflow-hidden rounded-[2rem] md:rounded-[2.5rem]"
                   >
                     <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
 
@@ -477,13 +670,13 @@ export default function Home() {
                       {expert.description}
                     </p>
 
-                    <div className="grid grid-cols-2 gap-8 mb-10 max-w-md mx-auto">
+                    <div className="grid grid-cols-2 gap-4 md:gap-8 mb-10 max-w-md mx-auto">
                       <div className="text-center">
-                        <div className="text-3xl font-bold text-white mb-1">{expert.experience}</div>
+                        <div className="text-2xl md:text-3xl font-bold text-white mb-1">{expert.experience}</div>
                         <div className="text-[10px] text-muted-foreground uppercase tracking-[0.2em] font-bold">Experience</div>
                       </div>
                       <div className="text-center">
-                        <div className="text-3xl font-bold text-white mb-1">{expert.projects}</div>
+                        <div className="text-2xl md:text-3xl font-bold text-white mb-1">{expert.projects}</div>
                         <div className="text-[10px] text-muted-foreground uppercase tracking-[0.2em] font-bold">Completed</div>
                       </div>
                     </div>
@@ -539,7 +732,7 @@ export default function Home() {
               <div className="flex">
                 {testimonials.map((t, i) => (
                   <div key={i} className="flex-[0_0_100%] min-w-0 px-4">
-                    <div className="glass-panel p-8 md:p-12 rounded-[2.5rem] text-center relative border border-white/10 hover:border-primary/30 transition-all group overflow-hidden h-full flex flex-col justify-center items-center">
+                    <div className="glass-panel p-6 md:p-12 rounded-[2rem] md:rounded-[2.5rem] text-center relative border border-white/10 hover:border-primary/30 transition-all group overflow-hidden h-full flex flex-col justify-center items-center">
                       <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
 
                       <div className="w-20 h-20 rounded-full bg-primary/10 mb-8 flex items-center justify-center border border-primary/20 group-hover:scale-110 transition-transform duration-500">
@@ -548,7 +741,7 @@ export default function Home() {
 
                       <div className="text-6xl text-primary/10 font-serif absolute top-8 left-8">"</div>
 
-                      <p className="text-xl md:text-2xl text-white font-medium italic mb-10 relative z-10 leading-relaxed tracking-tight max-w-2xl">
+                      <p className="text-lg md:text-2xl text-white font-medium italic mb-10 relative z-10 leading-relaxed tracking-tight max-w-2xl px-2">
                         {t.quote}
                       </p>
 
@@ -620,8 +813,8 @@ export default function Home() {
         <div className="relative mt-12 overflow-hidden" ref={techEmblaRef}>
           <div className="flex">
             {techStack.map((tech, index) => (
-              <div key={index} className="flex-[0_0_50%] md:flex-[0_0_25%] lg:flex-[0_0_20%] min-w-0 px-4">
-                <div className="glass-panel p-8 rounded-2xl text-center border border-white/10 hover:border-primary/30 transition-all group flex flex-col items-center justify-center aspect-square md:aspect-auto md:h-48">
+              <div key={index} className="flex-[0_0_percentage] min-w-0 px-2 md:px-4" style={{ flex: '0 0 33.333333%' } as any}>
+                <div className="glass-panel p-4 md:p-8 rounded-2xl text-center border border-white/10 hover:border-primary/30 transition-all group flex flex-col items-center justify-center aspect-square md:aspect-auto md:h-48">
                   <div className="mb-4 group-hover:scale-110 transition-transform duration-500">
                     {tech.icon}
                   </div>
@@ -636,8 +829,8 @@ export default function Home() {
         <div className="relative mt-8 overflow-hidden" ref={aiTechEmblaRef}>
           <div className="flex">
             {aiTechStack.map((tech, index) => (
-              <div key={index} className="flex-[0_0_50%] md:flex-[0_0_25%] lg:flex-[0_0_20%] min-w-0 px-4">
-                <div className="glass-panel p-8 rounded-2xl text-center border border-white/10 hover:border-primary/30 transition-all group flex flex-col items-center justify-center aspect-square md:aspect-auto md:h-48">
+              <div key={index} className="flex-[0_0_percentage] min-w-0 px-2 md:px-4" style={{ flex: '0 0 33.333333%' } as any}>
+                <div className="glass-panel p-4 md:p-8 rounded-2xl text-center border border-white/10 hover:border-primary/30 transition-all group flex flex-col items-center justify-center aspect-square md:aspect-auto md:h-48">
                   <div className="mb-4 group-hover:scale-110 transition-transform duration-500">
                     {tech.icon}
                   </div>

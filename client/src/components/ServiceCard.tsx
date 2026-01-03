@@ -20,10 +20,10 @@ export function ServiceCard({ title, description, icon, index, stats, subService
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ delay: index * 0.1 }}
-      className="glass-panel p-8 rounded-[2.5rem] border border-white/10 hover:border-primary/30 transition-all group relative overflow-hidden flex flex-col h-full"
+      className="glass-panel p-6 md:p-8 rounded-[2rem] md:rounded-[2.5rem] border border-white/10 hover:border-primary/30 transition-all group relative overflow-hidden flex flex-col h-full"
     >
       <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-      
+
       {stats && (
         <div className="flex justify-center mb-8 relative">
           <div className="relative w-24 h-24">
@@ -75,11 +75,11 @@ export function ServiceCard({ title, description, icon, index, stats, subService
       {subServices && (
         <ul className="space-y-3 mb-8 flex-grow">
           {displayServices?.map((sub, i) => (
-            <motion.li 
+            <motion.li
               layout
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              key={sub} 
+              key={sub}
               className="flex items-center gap-3 text-sm text-gray-400 group-hover:text-gray-300 transition-colors"
             >
               <div className="w-1.5 h-1.5 rounded-full bg-primary/50" />
@@ -90,7 +90,7 @@ export function ServiceCard({ title, description, icon, index, stats, subService
       )}
 
       {subServices && subServices.length > 4 && (
-        <button 
+        <button
           onClick={() => setIsExpanded(!isExpanded)}
           className="text-primary text-sm font-bold flex items-center gap-2 group/btn mt-auto justify-center hover:underline"
         >

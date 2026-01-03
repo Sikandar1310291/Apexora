@@ -12,9 +12,8 @@ export function Section({ id, className = "", children, darker = false }: Sectio
   return (
     <section
       id={id}
-      className={`relative w-full overflow-hidden section-padding ${
-        darker ? "bg-black/20" : "bg-transparent"
-      } ${className}`}
+      className={`relative w-full overflow-hidden section-padding ${darker ? "bg-black/20" : "bg-transparent"
+        } ${className}`}
     >
       <div className="container-width relative z-10">
         <motion.div
@@ -26,7 +25,7 @@ export function Section({ id, className = "", children, darker = false }: Sectio
           {children}
         </motion.div>
       </div>
-      
+
       {/* Decorative background elements */}
       {darker && (
         <div className="absolute inset-0 pointer-events-none z-0">
@@ -40,8 +39,8 @@ export function Section({ id, className = "", children, darker = false }: Sectio
 
 export function SectionHeader({ title, subtitle, align = "center" }: { title: string, subtitle?: string, align?: "left" | "center" | "right" }) {
   return (
-    <div className={`mb-16 ${align === "center" ? "text-center" : align === "left" ? "text-left" : "text-right"}`}>
-      <motion.h2 
+    <div className={`mb-10 md:mb-16 ${align === "center" ? "text-center" : align === "left" ? "text-left" : "text-right"}`}>
+      <motion.h2
         className="text-3xl md:text-5xl font-display font-bold mb-4"
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -54,7 +53,7 @@ export function SectionHeader({ title, subtitle, align = "center" }: { title: st
         )}
       </motion.h2>
       {subtitle && (
-        <motion.p 
+        <motion.p
           className="text-muted-foreground text-lg max-w-2xl mx-auto leading-relaxed"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}

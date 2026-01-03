@@ -1,6 +1,7 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { api, type InsertInquiry } from "@shared/routes";
+import { api } from "@shared/routes";
+import { type InsertInquiry } from "@shared/schema";
 import { useCreateInquiry } from "@/hooks/use-inquiries";
 import { Loader2, Send } from "lucide-react";
 import { motion } from "framer-motion";
@@ -9,7 +10,7 @@ import { useToast } from "@/hooks/use-toast";
 export function ContactForm() {
   const { mutate, isPending } = useCreateInquiry();
   const { toast } = useToast();
-  
+
   const form = useForm<InsertInquiry>({
     resolver: zodResolver(api.inquiries.create.input),
     defaultValues: {
@@ -42,9 +43,9 @@ export function ContactForm() {
   };
 
   return (
-    <motion.form 
-      onSubmit={form.handleSubmit(onSubmit)} 
-      className="glass-panel p-8 md:p-10 rounded-3xl space-y-6"
+    <motion.form
+      onSubmit={form.handleSubmit(onSubmit)}
+      className="glass-panel p-6 md:p-10 rounded-3xl space-y-6"
       initial={{ opacity: 0, x: 20 }}
       whileInView={{ opacity: 1, x: 0 }}
       viewport={{ once: true }}
@@ -61,7 +62,7 @@ export function ContactForm() {
             <p className="text-red-500 text-xs mt-1">{form.formState.errors.name.message}</p>
           )}
         </div>
-        
+
         <div className="space-y-2">
           <label className="text-sm font-medium text-gray-400">Email Address</label>
           <input
