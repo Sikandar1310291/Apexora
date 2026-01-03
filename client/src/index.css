@@ -1,0 +1,88 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Montserrat:wght@400;500;600;700;800;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* HSL values for Deep Charcoal #0B0C10 -> 210 17% 5% */
+  --background: 210 17% 5%;
+  --foreground: 0 0% 100%; /* White */
+
+  /* Electric Cyan #00A896 -> 174 100% 33% */
+  --primary: 174 100% 33%;
+  --primary-foreground: 210 17% 5%;
+
+  /* Soft Teal #1A7F7E -> 179 66% 30% */
+  --secondary: 179 66% 30%;
+  --secondary-foreground: 0 0% 100%;
+
+  /* Muted Gray #B8B8B8 -> 0 0% 72% */
+  --muted: 210 10% 20%;
+  --muted-foreground: 0 0% 72%;
+
+  --accent: 174 100% 33%;
+  --accent-foreground: 210 17% 5%;
+
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 210 40% 98%;
+
+  /* Border: Charcoal with 20% opacity */
+  --border: 210 17% 15%; 
+  --input: 210 17% 15%;
+  --ring: 174 100% 33%;
+
+  --card: 210 15% 8%; /* Slightly lighter than bg */
+  --card-foreground: 0 0% 100%;
+
+  --radius: 0.5rem;
+  
+  --font-sans: 'Inter', sans-serif;
+  --font-display: 'Montserrat', sans-serif;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: hsl(var(--background)); 
+}
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--border)); 
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--primary)); 
+}
+
+/* Glassmorphism Utilities */
+.glass-panel {
+  @apply bg-opacity-10 backdrop-blur-md border border-white/10 shadow-xl;
+  background-color: rgba(255, 255, 255, 0.03);
+}
+
+.text-gradient {
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary;
+}
+
+.section-padding {
+  @apply py-20 md:py-32;
+}
+
+.container-width {
+  @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+}
