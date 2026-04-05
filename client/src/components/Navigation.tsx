@@ -1,7 +1,13 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, ArrowRight } from "lucide-react";
+import { Menu, X, ArrowRight, ChevronDown, Package } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import logo from "@assets/logo_1767381786801.png";
 
 export function Navigation() {
@@ -26,6 +32,13 @@ export function Navigation() {
 
   const navLinks = [
     { name: "Home", href: "/" },
+    { 
+      name: "Our Products", 
+      isDropdown: true,
+      items: [
+        { name: "Medixa Pharmacy SaaS", href: "/software", icon: <Package className="w-4 h-4 mr-2" /> }
+      ]
+    },
     { name: "About", href: "#about" },
     { name: "Services", href: "#services" },
     { name: "Testimonials", href: "#testimonials" },
@@ -70,22 +83,41 @@ export function Navigation() {
           <div className="hidden md:block">
             <div className="ml-10 flex items-baseline space-x-8">
               {navLinks.map((link) => (
-                <a
-                  key={link.name}
-                  href={link.href}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    if (link.href === "/") {
-                      window.scrollTo({ top: 0, behavior: "smooth" });
-                    } else {
-                      handleNavClick(link.href);
-                    }
-                  }}
-                  className="text-sm font-medium text-gray-300 hover:text-primary transition-colors relative group"
-                >
-                  {link.name}
-                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all group-hover:w-full duration-300" />
-                </a>
+                link.isDropdown ? (
+                  <DropdownMenu key={link.name}>
+                    <DropdownMenuTrigger className="flex items-center text-sm font-medium text-gray-300 hover:text-primary transition-colors focus:outline-none group">
+                      {link.name}
+                      <ChevronDown className="ml-1 h-4 w-4 group-data-[state=open]:rotate-180 transition-transform" />
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent className="bg-background/95 backdrop-blur-md border border-white/10 mt-2 min-w-[200px]">
+                      {link.items?.map((item) => (
+                        <DropdownMenuItem key={item.name} asChild className="focus:bg-primary/20 focus:text-primary cursor-pointer py-2">
+                          <Link href={item.href} className="flex items-center w-full">
+                            {item.icon}
+                            {item.name}
+                          </Link>
+                        </DropdownMenuItem>
+                      ))}
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                ) : (
+                  <a
+                    key={link.name}
+                    href={link.href}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      if (link.href === "/") {
+                        window.scrollTo({ top: 0, behavior: "smooth" });
+                      } else {
+                        handleNavClick(link.href);
+                      }
+                    }}
+                    className="text-sm font-medium text-gray-300 hover:text-primary transition-colors relative group"
+                  >
+                    {link.name}
+                    <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all group-hover:w-full duration-300" />
+                  </a>
+                )
               ))}
             </div>
           </div>
@@ -150,17 +182,41 @@ export function Navigation() {
             {/* Nav Links */}
             <div className="flex-1 overflow-y-auto py-8 px-6 space-y-4">
               {navLinks.map((link, i) => (
-                <motion.button
-                  key={link.name}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: i * 0.1 }}
-                  onClick={() => handleNavClick(link.href)}
-                  className="w-full text-left py-4 text-3xl font-display font-bold text-white/90 hover:text-primary transition-colors flex justify-between items-center group"
-                >
-                  {link.name}
-                  <ArrowRight className="h-6 w-6 opacity-0 group-hover:opacity-100 -translate-x-4 group-hover:translate-x-0 transition-all text-primary" />
-                </motion.button>
+                <div key={link.name}>
+                  {link.isDropdown ? (
+                    <div className="space-y-2">
+                       <span className="text-xs font-bold text-primary tracking-[0.2em] uppercase px-2 mb-2 block">{link.name}</span>
+                       {link.items?.map((item) => (
+                         <motion.button
+                            key={item.name}
+                            initial={{ opacity: 0, x: 20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            onClick={() => {
+                              setIsOpen(false);
+                              // We use Link implicitly via href
+                            }}
+                            className="w-full text-left py-4 px-4 text-2xl font-display font-bold text-white/70 hover:text-primary transition-colors flex justify-between items-center group bg-white/5 rounded-2xl mb-2"
+                         >
+                            <Link href={item.href} className="flex items-center">
+                               {item.name}
+                            </Link>
+                            <ArrowRight className="h-6 w-6 text-primary" />
+                         </motion.button>
+                       ))}
+                    </div>
+                  ) : (
+                    <motion.button
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: i * 0.1 }}
+                      onClick={() => handleNavClick(link.href)}
+                      className="w-full text-left py-4 text-2xl font-display font-bold text-white/90 hover:text-primary transition-colors flex justify-between items-center group"
+                    >
+                      {link.name}
+                      <ArrowRight className="h-6 w-6 opacity-0 group-hover:opacity-100 -translate-x-4 group-hover:translate-x-0 transition-all text-primary" />
+                    </motion.button>
+                  )}
+                </div>
               ))}
 
               <motion.div
