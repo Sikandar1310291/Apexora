@@ -93,7 +93,7 @@ export default function Medixa() {
 
               <div className="flex flex-wrap gap-4">
                 <a 
-                  href="/medixa/Medixa_SaaS_Windows.zip" 
+                  href="/medixa/Medixa_Setup_v1.0.exe" 
                   download
                   className="px-8 py-4 rounded-2xl bg-primary text-background font-bold text-lg flex items-center gap-3 hover:bg-white transition-all shadow-[0_0_20px_rgba(0,168,150,0.3)] group"
                 >
