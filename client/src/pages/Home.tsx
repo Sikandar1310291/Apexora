@@ -230,29 +230,29 @@ export default function Home() {
   }, [teamEmblaApi]);
 
   const techStack = [
-    { name: "React", category: "FRONTEND", icon: <SiReact className="w-10 h-10 text-[#61DAFB]" /> },
-    { name: "Next.js", category: "FRAMEWORK", icon: <SiNextdotjs className="w-10 h-10 text-white" /> },
-    { name: "Node.js", category: "BACKEND", icon: <SiNodedotjs className="w-10 h-10 text-[#339933]" /> },
-    { name: "Python", category: "BACKEND", icon: <SiPython className="w-10 h-10 text-[#3776AB]" /> },
-    { name: "MongoDB", category: "DATABASE", icon: <SiMongodb className="w-10 h-10 text-[#47A248]" /> },
-    { name: "Vue.js", category: "FRONTEND", icon: <SiVuedotjs className="w-10 h-10 text-[#4FC08D]" /> },
-    { name: "Angular", category: "FRAMEWORK", icon: <SiAngular className="w-10 h-10 text-[#DD0031]" /> },
-    { name: "Laravel", category: "BACKEND", icon: <SiLaravel className="w-10 h-10 text-[#FF2D20]" /> },
-    { name: "MySQL", category: "DATABASE", icon: <SiMysql className="w-10 h-10 text-[#4479A1]" /> },
-    { name: "TypeScript", category: "LANGUAGE", icon: <SiTypescript className="w-10 h-10 text-[#3178C6]" /> },
-    { name: "Tailwind CSS", category: "STYLING", icon: <SiTailwindcss className="w-10 h-10 text-[#06B6D4]" /> },
-    { name: "Docker", category: "DEVOPS", icon: <SiDocker className="w-10 h-10 text-[#2496ED]" /> },
+    { name: "React", category: "FRONTEND", icon: <SiReact className="w-8 h-8 text-[#61DAFB]" /> },
+    { name: "Next.js", category: "FRAMEWORK", icon: <SiNextdotjs className="w-8 h-8 text-white" /> },
+    { name: "Node.js", category: "BACKEND", icon: <SiNodedotjs className="w-8 h-8 text-[#339933]" /> },
+    { name: "Python", category: "BACKEND", icon: <SiPython className="w-8 h-8 text-[#3776AB]" /> },
+    { name: "MongoDB", category: "DATABASE", icon: <SiMongodb className="w-8 h-8 text-[#47A248]" /> },
+    { name: "Vue.js", category: "FRONTEND", icon: <SiVuedotjs className="w-8 h-8 text-[#4FC08D]" /> },
+    { name: "Angular", category: "FRAMEWORK", icon: <SiAngular className="w-8 h-8 text-[#DD0031]" /> },
+    { name: "Laravel", category: "BACKEND", icon: <SiLaravel className="w-8 h-8 text-[#FF2D20]" /> },
+    { name: "MySQL", category: "DATABASE", icon: <SiMysql className="w-8 h-8 text-[#4479A1]" /> },
+    { name: "TypeScript", category: "LANGUAGE", icon: <SiTypescript className="w-8 h-8 text-[#3178C6]" /> },
+    { name: "Tailwind CSS", category: "STYLING", icon: <SiTailwindcss className="w-8 h-8 text-[#06B6D4]" /> },
+    { name: "Docker", category: "DEVOPS", icon: <SiDocker className="w-8 h-8 text-[#2496ED]" /> },
   ];
 
   const aiTechStack = [
-    { name: "TensorFlow", category: "AI/ML", icon: <SiTensorflow className="w-10 h-10 text-[#FF6F00]" /> },
-    { name: "PyTorch", category: "AI/ML", icon: <SiPytorch className="w-10 h-10 text-[#EE4C2C]" /> },
-    { name: "OpenAI", category: "AI", icon: <SiOpenai className="w-10 h-10 text-white" /> },
-    { name: "Pandas", category: "DATA SCIENCE", icon: <SiPandas className="w-10 h-10 text-[#150458]" /> },
-    { name: "Scikit-Learn", category: "ML", icon: <SiScikitlearn className="w-10 h-10 text-[#F7931E]" /> },
-    { name: "Jupyter", category: "DATA SCIENCE", icon: <SiJupyter className="w-10 h-10 text-[#F37626]" /> },
-    { name: "Keras", category: "AI/ML", icon: <SiKeras className="w-10 h-10 text-[#D00000]" /> },
-    { name: "OpenCV", category: "COMPUTER VISION", icon: <SiOpencv className="w-10 h-10 text-[#5C3EE8]" /> },
+    { name: "TensorFlow", category: "AI/ML", icon: <SiTensorflow className="w-8 h-8 text-[#FF6F00]" /> },
+    { name: "PyTorch", category: "AI/ML", icon: <SiPytorch className="w-8 h-8 text-[#EE4C2C]" /> },
+    { name: "OpenAI", category: "AI", icon: <SiOpenai className="w-8 h-8 text-white" /> },
+    { name: "Pandas", category: "DATA SCIENCE", icon: <SiPandas className="w-8 h-8 text-[#150458]" /> },
+    { name: "Scikit-Learn", category: "ML", icon: <SiScikitlearn className="w-8 h-8 text-[#F7931E]" /> },
+    { name: "Jupyter", category: "DATA SCIENCE", icon: <SiJupyter className="w-8 h-8 text-[#F37626]" /> },
+    { name: "Keras", category: "AI/ML", icon: <SiKeras className="w-8 h-8 text-[#D00000]" /> },
+    { name: "OpenCV", category: "COMPUTER VISION", icon: <SiOpencv className="w-8 h-8 text-[#5C3EE8]" /> },
   ];
 
   const [techEmblaRef] = useEmblaCarousel({ loop: true, align: "start" }, [Autoplay({ delay: 1500, stopOnInteraction: false })]);
@@ -643,6 +643,51 @@ export default function Home() {
         </div>
       </Section>
 
+      {/* LEADERSHIP SECTION */}
+      <Section id="leadership">
+        <SectionHeader title="Our Leadership" subtitle="Meet the visionaries behind Apexora Solutions who are dedicated to driving innovation and excellence." />
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto mt-12">
+          {/* Muhammad Awais */}
+          <motion.div 
+            whileHover={{ y: -10 }}
+            className="glass-panel p-10 rounded-[3rem] border border-white/10 hover:border-primary/30 transition-all group relative overflow-hidden"
+          >
+            <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:opacity-20 transition-opacity">
+              <Users className="w-16 h-16" />
+            </div>
+            <div className="w-20 h-20 rounded-2xl bg-primary/10 mb-8 flex items-center justify-center border border-primary/20 group-hover:scale-110 transition-transform duration-500">
+              <Trophy className="w-10 h-10 text-primary" />
+            </div>
+            <h3 className="text-3xl font-display font-bold text-white mb-2">Muhammad Awais</h3>
+            <p className="text-primary font-bold uppercase tracking-widest text-sm mb-6">Founder & CEO | AI Engineer</p>
+            <div className="flex items-center gap-3 text-muted-foreground bg-white/5 p-4 rounded-2xl border border-white/5 group-hover:border-primary/20 transition-all">
+              <Smartphone className="w-5 h-5 text-primary" />
+              <span className="font-mono text-lg font-bold text-white">+92 310 4222105</span>
+            </div>
+          </motion.div>
+
+          {/* Muhammad Abu Huraira */}
+          <motion.div 
+            whileHover={{ y: -10 }}
+            className="glass-panel p-10 rounded-[3rem] border border-white/10 hover:border-secondary/30 transition-all group relative overflow-hidden"
+          >
+            <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:opacity-20 transition-opacity">
+              <Users className="w-16 h-16" />
+            </div>
+            <div className="w-20 h-20 rounded-2xl bg-secondary/10 mb-8 flex items-center justify-center border border-secondary/20 group-hover:scale-110 transition-transform duration-500">
+              <Trophy className="w-10 h-10 text-secondary" />
+            </div>
+            <h3 className="text-3xl font-display font-bold text-white mb-2">Muhammad Abu Huraira</h3>
+            <p className="text-secondary font-bold uppercase tracking-widest text-sm mb-6">Founder & CEO | Senior Data Scientist</p>
+            <div className="flex items-center gap-3 text-muted-foreground bg-white/5 p-4 rounded-2xl border border-white/5 group-hover:border-secondary/20 transition-all">
+              <Smartphone className="w-5 h-5 text-secondary" />
+              <span className="font-mono text-lg font-bold text-white">+92 328 6010100</span>
+            </div>
+          </motion.div>
+        </div>
+      </Section>
+
       {/* TEAM SECTION */}
       <Section id="team" darker>
         <SectionHeader title="Our Expert Team" subtitle="Meet our diverse team of skilled professionals specializing in cutting-edge technologies and innovative solutions." />
@@ -813,13 +858,13 @@ export default function Home() {
         <div className="relative mt-12 overflow-hidden" ref={techEmblaRef}>
           <div className="flex">
             {techStack.map((tech, index) => (
-              <div key={index} className="flex-[0_0_percentage] min-w-0 px-2 md:px-4" style={{ flex: '0 0 33.333333%' } as any}>
-                <div className="glass-panel p-4 md:p-8 rounded-2xl text-center border border-white/10 hover:border-primary/30 transition-all group flex flex-col items-center justify-center aspect-square md:aspect-auto md:h-48">
-                  <div className="mb-4 group-hover:scale-110 transition-transform duration-500">
+              <div key={index} className="flex-[0_0_percentage] min-w-0 px-2 md:px-3" style={{ flex: '0 0 20%' } as any}>
+                <div className="glass-panel p-3 md:p-5 rounded-xl text-center border border-white/10 hover:border-primary/30 transition-all group flex flex-col items-center justify-center aspect-square md:aspect-auto md:h-36">
+                  <div className="mb-3 group-hover:scale-110 transition-transform duration-500">
                     {tech.icon}
                   </div>
-                  <h4 className="text-white font-bold mb-1">{tech.name}</h4>
-                  <p className="text-[10px] text-muted-foreground uppercase tracking-widest font-bold">{tech.category}</p>
+                  <h4 className="text-white font-bold text-xs mb-0.5">{tech.name}</h4>
+                  <p className="text-[8px] text-muted-foreground uppercase tracking-widest font-bold">{tech.category}</p>
                 </div>
               </div>
             ))}
@@ -829,13 +874,13 @@ export default function Home() {
         <div className="relative mt-8 overflow-hidden" ref={aiTechEmblaRef}>
           <div className="flex">
             {aiTechStack.map((tech, index) => (
-              <div key={index} className="flex-[0_0_percentage] min-w-0 px-2 md:px-4" style={{ flex: '0 0 33.333333%' } as any}>
-                <div className="glass-panel p-4 md:p-8 rounded-2xl text-center border border-white/10 hover:border-primary/30 transition-all group flex flex-col items-center justify-center aspect-square md:aspect-auto md:h-48">
-                  <div className="mb-4 group-hover:scale-110 transition-transform duration-500">
+              <div key={index} className="flex-[0_0_percentage] min-w-0 px-2 md:px-3" style={{ flex: '0 0 20%' } as any}>
+                <div className="glass-panel p-3 md:p-5 rounded-xl text-center border border-white/10 hover:border-primary/30 transition-all group flex flex-col items-center justify-center aspect-square md:aspect-auto md:h-36">
+                  <div className="mb-3 group-hover:scale-110 transition-transform duration-500">
                     {tech.icon}
                   </div>
-                  <h4 className="text-white font-bold mb-1">{tech.name}</h4>
-                  <p className="text-[10px] text-muted-foreground uppercase tracking-widest font-bold">{tech.category}</p>
+                  <h4 className="text-white font-bold text-xs mb-0.5">{tech.name}</h4>
+                  <p className="text-[8px] text-muted-foreground uppercase tracking-widest font-bold">{tech.category}</p>
                 </div>
               </div>
             ))}
@@ -856,7 +901,8 @@ export default function Home() {
                 </div>
                 <div>
                   <h5 className="text-lg font-bold text-white mb-1">Phone</h5>
-                  <p className="text-gray-400">+923046211219</p>
+                  <p className="text-gray-400">+92 310 4222105</p>
+                  <p className="text-gray-400">+92 328 6010100</p>
                   <p className="text-gray-500 text-sm mt-1">Mon-Fri, 9am - 6pm PKT</p>
                 </div>
               </div>

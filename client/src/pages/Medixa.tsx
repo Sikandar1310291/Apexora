@@ -94,7 +94,7 @@ export default function Medixa() {
               <div className="flex flex-wrap gap-4">
                 <a 
                   href="/medixa/Medixa_Setup_v1.2.exe" 
-                  download
+                  download="Medixa_Setup_v1.2.exe"
                   className="px-8 py-4 rounded-2xl bg-primary text-background font-bold text-lg flex items-center gap-3 hover:bg-white transition-all shadow-[0_0_20px_rgba(0,168,150,0.3)] group"
                 >
                   <Download className="w-6 h-6 group-hover:bounce" />
@@ -153,7 +153,7 @@ export default function Medixa() {
               </div>
               <h3 className="text-xl font-bold text-muted-foreground mb-4 uppercase tracking-[0.2em]">Installation Fee</h3>
               <div className="flex items-baseline gap-2 mb-8">
-                <span className="text-5xl font-display font-black text-white">40,000</span>
+                <span className="text-5xl font-display font-black text-white">20,000</span>
                 <span className="text-primary font-bold">PKR</span>
               </div>
               <ul className="space-y-4 mb-8">
@@ -183,7 +183,7 @@ export default function Medixa() {
               <div className="inline-block px-3 py-1 rounded-full bg-primary/20 text-primary text-[10px] font-bold uppercase tracking-widest mb-4">Recommended</div>
               <h3 className="text-xl font-bold text-muted-foreground mb-4 uppercase tracking-[0.2em]">Monthly Subscription</h3>
               <div className="flex items-baseline gap-2 mb-8">
-                <span className="text-5xl font-display font-black text-white">5,000</span>
+                <span className="text-5xl font-display font-black text-white">2,000</span>
                 <span className="text-primary font-bold">PKR</span>
               </div>
               <ul className="space-y-4 mb-8 text-white/80">
@@ -207,18 +207,32 @@ export default function Medixa() {
           <div className="mt-20 glass-panel p-10 rounded-[3rem] border border-white/10 text-center max-w-3xl mx-auto">
             <h3 className="text-2xl font-bold mb-4">Ready to Get Started?</h3>
             <p className="text-muted-foreground mb-8">To check details or acquire your official license, contact our licensing department directly.</p>
-            <a 
-              href="tel:+923104222105" 
-              className="inline-flex items-center gap-4 px-10 py-5 rounded-2xl bg-white/5 border border-white/10 hover:border-primary/50 hover:bg-white/10 transition-all group"
-            >
-              <div className="w-12 h-12 rounded-xl bg-primary/20 flex items-center justify-center group-hover:scale-110 transition-transform">
-                <Phone className="text-primary w-6 h-6" />
-              </div>
-              <div className="text-left">
-                <div className="text-xs text-muted-foreground uppercase font-black">Call/WhatsApp</div>
-                <div className="text-2xl font-display font-bold text-white">+92 310 4222105</div>
-              </div>
-            </a>
+            <div className="flex flex-col md:flex-row gap-6 justify-center items-center">
+              <a 
+                href="tel:+923104222105" 
+                className="inline-flex items-center gap-4 px-8 py-5 rounded-2xl bg-white/5 border border-white/10 hover:border-primary/50 hover:bg-white/10 transition-all group w-full md:w-auto"
+              >
+                <div className="w-12 h-12 rounded-xl bg-primary/20 flex items-center justify-center group-hover:scale-110 transition-transform">
+                  <Phone className="text-primary w-6 h-6" />
+                </div>
+                <div className="text-left">
+                  <div className="text-xs text-muted-foreground uppercase font-black">Call/WhatsApp</div>
+                  <div className="text-2xl font-display font-bold text-white">+92 310 4222105</div>
+                </div>
+              </a>
+              <a 
+                href="tel:+923286010100" 
+                className="inline-flex items-center gap-4 px-8 py-5 rounded-2xl bg-white/5 border border-white/10 hover:border-primary/50 hover:bg-white/10 transition-all group w-full md:w-auto"
+              >
+                <div className="w-12 h-12 rounded-xl bg-secondary/20 flex items-center justify-center group-hover:scale-110 transition-transform">
+                  <Phone className="text-secondary w-6 h-6" />
+                </div>
+                <div className="text-left">
+                  <div className="text-xs text-muted-foreground uppercase font-black">Alternative</div>
+                  <div className="text-2xl font-display font-bold text-white">+92 328 6010100</div>
+                </div>
+              </a>
+            </div>
           </div>
         </div>
       </Section>

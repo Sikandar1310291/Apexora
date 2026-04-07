@@ -4,6 +4,9 @@ import { storage } from "./storage";
 import { api } from "@shared/routes";
 import { insertSubscriberSchema } from "@shared/schema";
 import { z } from "zod";
+import path from "path";
+import fs from "fs";
+import nodemailer from "nodemailer";
 
 async function seedDatabase() {
   const existing = await storage.getTestimonials();
@@ -47,8 +50,39 @@ export async function registerRoutes(
       const input = api.inquiries.create.input.parse(req.body);
       const inquiry = await storage.createInquiry(input);
       
-      // LOGIC FOR EMAIL NOTIFICATION
-      console.log(`Notification: New message from ${input.name} (${input.email}) regarding "${input.subject}" to be delivered to apexorasolutions@gmail.com`);
+      // EMAIL NOTIFICATION LOGIC
+      const transporter = nodemailer.createTransport({
+        host: process.env.SMTP_HOST || "smtp.gmail.com",
+        port: parseInt(process.env.SMTP_PORT || "587"),
+        secure: process.env.SMTP_SECURE === "true", // true for 465, false for other ports
+        auth: {
+          user: process.env.SMTP_USER,
+          pass: process.env.SMTP_PASS,
+        },
+      });
+
+      const mailOptions = {
+        from: `"${input.name}" <${process.env.SMTP_USER || 'notifications@apexora.com'}>`,
+        to: "apexorasolutions@gmail.com",
+        replyTo: input.email,
+        subject: `New Inquiry: ${input.subject}`,
+        text: `Name: ${input.name}\nEmail: ${input.email}\nSubject: ${input.subject}\n\nMessage:\n${input.message}`,
+        html: `
+          <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #eee; padding: 20px; border-radius: 10px;">
+            <h2 style="color: #00a896;">New Inquiry from Apexora Solutions</h2>
+            <p><strong>Name:</strong> ${input.name}</p>
+            <p><strong>Email:</strong> ${input.email}</p>
+            <p><strong>Subject:</strong> ${input.subject}</p>
+            <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
+            <p style="white-space: pre-wrap;">${input.message}</p>
+          </div>
+        `,
+      };
+
+      // We don't await the email to avoid delaying the response, but we log the result
+      transporter.sendMail(mailOptions)
+        .then(info => console.log('Email sent: ' + info.response))
+        .catch(err => console.error('Email error: ', err));
       
       res.status(201).json(inquiry);
     } catch (err) {
@@ -78,6 +112,17 @@ export async function registerRoutes(
   app.get(api.testimonials.list.path, async (req, res) => {
     const list = await storage.getTestimonials();
     res.json(list);
+  });
+
+  // Explicit route for Medixa Setup v1.2 to ensure correct filename during download
+  app.get("/medixa/Medixa_Setup_v1.2.exe", (req, res) => {
+    const filePath = path.resolve(process.cwd(), "client", "public", "medixa", "Medixa_Setup_v1.2.exe");
+    if (fs.existsSync(filePath)) {
+      res.setHeader('Content-Disposition', 'attachment; filename="Medixa_Setup_v1.2.exe"');
+      res.sendFile(filePath);
+    } else {
+      res.status(404).send("File not found");
+    }
   });
 
   return httpServer;
