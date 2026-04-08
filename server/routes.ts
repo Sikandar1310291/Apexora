@@ -114,11 +114,11 @@ export async function registerRoutes(
     res.json(list);
   });
 
-  // Explicit route for Medixa Setup v1.2 to ensure correct filename during download
-  app.get("/medixa/Medixa_Setup_v1.2.exe", (req, res) => {
-    const filePath = path.resolve(process.cwd(), "client", "public", "medixa", "Medixa_Setup_v1.2.exe");
+  // Explicit route for Medixa Setup v1.3 to ensure correct filename during download
+  app.get("/medixa/Medixa_Setup_v1.3.exe", (req, res) => {
+    const filePath = path.resolve(process.cwd(), "client", "public", "medixa", "Medixa_Setup_v1.3.exe");
     if (fs.existsSync(filePath)) {
-      res.setHeader('Content-Disposition', 'attachment; filename="Medixa_Setup_v1.2.exe"');
+      res.setHeader('Content-Disposition', 'attachment; filename="Medixa_Setup_v1.3.exe"');
       res.sendFile(filePath);
     } else {
       res.status(404).send("File not found");
