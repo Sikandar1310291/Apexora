@@ -4,6 +4,14 @@
   "outputDirectory": "dist/public",
   "rewrites": [
     {
+      "source": "/api/inquiries",
+      "destination": "/api/inquiries"
+    },
+    {
+      "source": "/api/newsletter",
+      "destination": "/api/newsletter"
+    },
+    {
       "source": "/api/(.*)",
       "destination": "/api"
     },

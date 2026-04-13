@@ -10,8 +10,8 @@ export function useCreateInquiry() {
       // Validate locally first using the Zod schema from routes
       const validated = api.inquiries.create.input.parse(data);
       
-      const res = await fetch(api.inquiries.create.path, {
-        method: api.inquiries.create.method,
+      const res = await fetch("/api/inquiries", {
+        method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(validated),
       });

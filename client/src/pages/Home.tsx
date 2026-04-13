@@ -41,7 +41,11 @@ export default function Home() {
 
     setIsSubscribing(true);
     try {
-      await apiRequest("POST", "/api/newsletter/subscribe", { email: newsletterEmail });
+      await fetch("/api/newsletter", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: newsletterEmail }),
+      });
       toast({
         title: "Successfully Subscribed!",
         description: "You're now on the list for our latest updates and insights.",
@@ -992,7 +996,7 @@ export default function Home() {
           </div>
 
           <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="text-gray-600 text-sm">© 2024 apexora solutions. All rights reserved. | <span className="text-primary/50">System v1.0.4 - Hardened</span></p>
+            <p className="text-gray-600 text-sm">© 2024 apexora solutions. All rights reserved. | <span className="text-primary font-bold">System: NUCLEAR-V1</span></p>
             <div className="flex gap-6 text-gray-500">
               <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
               <a href="#" className="hover:text-white transition-colors">Terms of Service</a>
