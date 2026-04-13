@@ -48,24 +48,30 @@ export async function registerRoutes(
   // Helper to send email notifications
   async function sendNotificationEmail(options: { subject: string; text: string; html: string; replyTo?: string }) {
     try {
-      if (!process.env.SMTP_USER || !process.env.SMTP_PASS) {
-        console.warn('⚠️ SMTP_USER or SMTP_PASS not found in environment. Email notification will be skipped.');
+      // GOOGLE-HARDENED: Validation of credentials before initialization
+      const user = process.env.SMTP_USER;
+      const pass = process.env.SMTP_PASS;
+
+      if (!user || !pass) {
+        console.warn('[Email] SKIPPING: SMTP credentials not set in environment variables.');
         return;
       }
 
-      console.log(`[Email] Preparing to send: ${options.subject}`);
+      console.log(`[Email] Lazy-initializing transport for: ${options.subject}`);
+      
       const transporter = nodemailer.createTransport({
         host: process.env.SMTP_HOST || "smtp.gmail.com",
         port: parseInt(process.env.SMTP_PORT || "587"),
         secure: process.env.SMTP_SECURE === "true",
-        auth: {
-          user: process.env.SMTP_USER,
-          pass: process.env.SMTP_PASS,
-        },
+        auth: { user, pass },
+        // Hard timeout to prevent lambda hanging
+        connectionTimeout: 5000, 
+        greetingTimeout: 5000,
+        socketTimeout: 5000,
       });
 
       const mailOptions = {
-        from: `"Apexora Notifications" <${process.env.SMTP_USER || 'notifications@apexora.com'}>`,
+        from: `"Apexora Notifications" <${user}>`,
         to: "apexorasolutions@gmail.com",
         replyTo: options.replyTo,
         subject: options.subject,
@@ -73,18 +79,21 @@ export async function registerRoutes(
         html: options.html,
       };
 
-      const info = await transporter.sendMail(mailOptions);
-      console.log('[Email] Success: ' + info.response);
-      return info;
-    } catch (err) {
-      console.error('[Email] Failed to send email notification:', err);
+      // Always background this with a silent catch
+      transporter.sendMail(mailOptions)
+        .then(info => console.log('[Email] Handed off successfully:', info.messageId))
+        .catch(err => console.error('[Email] Background SMTP Error (Silent):', (err as Error).message));
+        
+    } catch (err: any) {
+      // Fatal errors in transporter creation are still caught here to prevent process crash
+      console.error('[Email] Fatal Initialization Error (Silent):', err.message);
     }
   }
 
   app.post(api.inquiries.create.path, async (req, res) => {
     const requestId = Math.random().toString(36).substring(7);
-    console.log(`[${requestId}] [API] POST /api/inquiries received`);
-    res.setHeader('X-Apexora-Status', 'Hardened-V2');
+    console.log(`[${requestId}] [API] POST /api/inquiries requested`);
+    res.setHeader('X-Apexora-Status', 'Hardened-V3-Google');
     
     try {
       const input = api.inquiries.create.input.parse(req.body);
@@ -132,8 +141,8 @@ export async function registerRoutes(
 
   app.post("/api/newsletter/subscribe", async (req, res) => {
     const requestId = Math.random().toString(36).substring(7);
-    console.log(`[${requestId}] [API] POST /api/newsletter/subscribe received`);
-    res.setHeader('X-Apexora-Status', 'Hardened-V2');
+    console.log(`[${requestId}] [API] POST /api/newsletter/subscribe requested`);
+    res.setHeader('X-Apexora-Status', 'Hardened-V3-Google');
     try {
       const input = insertSubscriberSchema.parse(req.body);
       await storage.subscribeNewsletter(input);

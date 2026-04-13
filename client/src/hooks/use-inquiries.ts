@@ -17,6 +17,11 @@ export function useCreateInquiry() {
       });
 
       if (!res.ok) {
+        const contentType = res.headers.get("content-type");
+        if (contentType && contentType.includes("text/html")) {
+          throw new Error(`Server Error (${res.status}): Lambda returned HTML. Check deployment logs.`);
+        }
+
         if (res.status === 400) {
           const error = await res.json();
           // Try to parse as our known validation error format
