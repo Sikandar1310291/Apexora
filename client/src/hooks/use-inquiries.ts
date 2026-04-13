@@ -27,7 +27,7 @@ export function useCreateInquiry() {
             throw new Error(error.message || "Validation failed");
           }
         }
-        throw new Error("Failed to send inquiry");
+        throw new Error(`Server Error (${res.status}): Failed to send inquiry`);
       }
 
       return api.inquiries.create.responses[201].parse(await res.json());

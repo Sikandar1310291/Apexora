@@ -1,8 +1,8 @@
 import type { Express } from "express";
 import type { Server } from "http";
 import { storage } from "./storage";
-import { api } from "@shared/routes";
-import { insertSubscriberSchema } from "@shared/schema";
+import { api } from "../shared/routes";
+import { insertSubscriberSchema } from "../shared/schema";
 import { z } from "zod";
 import path from "path";
 import fs from "fs";
@@ -84,6 +84,7 @@ export async function registerRoutes(
   app.post(api.inquiries.create.path, async (req, res) => {
     const requestId = Math.random().toString(36).substring(7);
     console.log(`[${requestId}] [API] POST /api/inquiries received`);
+    res.setHeader('X-Apexora-Status', 'Hardened-V2');
     
     try {
       const input = api.inquiries.create.input.parse(req.body);
@@ -132,6 +133,7 @@ export async function registerRoutes(
   app.post("/api/newsletter/subscribe", async (req, res) => {
     const requestId = Math.random().toString(36).substring(7);
     console.log(`[${requestId}] [API] POST /api/newsletter/subscribe received`);
+    res.setHeader('X-Apexora-Status', 'Hardened-V2');
     try {
       const input = insertSubscriberSchema.parse(req.body);
       await storage.subscribeNewsletter(input);
