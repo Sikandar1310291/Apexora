@@ -178,16 +178,5 @@ export async function registerRoutes(
     res.json(list);
   });
 
-  // Explicit route for Medixa Setup v1.5 to ensure correct filename during download
-  app.get("/medixa/Medixa_Setup_v1.5.exe", (req, res) => {
-    const filePath = path.resolve(process.cwd(), "client", "public", "medixa", "Medixa_Setup_v1.5.exe");
-    if (fs.existsSync(filePath)) {
-      res.setHeader('Content-Disposition', 'attachment; filename="Medixa_Setup_v1.5.exe"');
-      res.sendFile(filePath);
-    } else {
-      res.status(404).send("File not found");
-    }
-  });
-
   return httpServer;
 }

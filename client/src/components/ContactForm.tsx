@@ -46,7 +46,7 @@ export function ContactForm() {
     <motion.form
       onSubmit={form.handleSubmit(onSubmit)}
       className="glass-panel p-6 md:p-10 rounded-3xl space-y-6"
-      data-ver="H1.0.3-GoogleHardened" // GOOGLE_HARDENED_V3 - To verify deployment
+      data-ver="H1.0.4-Final" // FINAL_DEEP_FIX_V4 - To verify deployment
       initial={{ opacity: 0, x: 20 }}
       whileInView={{ opacity: 1, x: 0 }}
       viewport={{ once: true }}
