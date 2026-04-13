@@ -45,27 +45,41 @@ export async function registerRoutes(
   // Seed data on startup
   seedDatabase().catch(console.error);
 
+  // Helper to send email notifications
+  async function sendNotificationEmail(options: { subject: string; text: string; html: string; replyTo?: string }) {
+    const transporter = nodemailer.createTransport({
+      host: process.env.SMTP_HOST || "smtp.gmail.com",
+      port: parseInt(process.env.SMTP_PORT || "587"),
+      secure: process.env.SMTP_SECURE === "true",
+      auth: {
+        user: process.env.SMTP_USER,
+        pass: process.env.SMTP_PASS,
+      },
+    });
+
+    const mailOptions = {
+      from: `"Apexora Notifications" <${process.env.SMTP_USER || 'notifications@apexora.com'}>`,
+      to: "apexorasolutions@gmail.com",
+      replyTo: options.replyTo,
+      subject: options.subject,
+      text: options.text,
+      html: options.html,
+    };
+
+    return transporter.sendMail(mailOptions)
+      .then(info => console.log('Email sent: ' + info.response))
+      .catch(err => console.error('Email error: ', err));
+  }
+
   app.post(api.inquiries.create.path, async (req, res) => {
     try {
       const input = api.inquiries.create.input.parse(req.body);
       const inquiry = await storage.createInquiry(input);
       
-      // EMAIL NOTIFICATION LOGIC
-      const transporter = nodemailer.createTransport({
-        host: process.env.SMTP_HOST || "smtp.gmail.com",
-        port: parseInt(process.env.SMTP_PORT || "587"),
-        secure: process.env.SMTP_SECURE === "true", // true for 465, false for other ports
-        auth: {
-          user: process.env.SMTP_USER,
-          pass: process.env.SMTP_PASS,
-        },
-      });
-
-      const mailOptions = {
-        from: `"${input.name}" <${process.env.SMTP_USER || 'notifications@apexora.com'}>`,
-        to: "apexorasolutions@gmail.com",
-        replyTo: input.email,
+      // EMAIL NOTIFICATION
+      sendNotificationEmail({
         subject: `New Inquiry: ${input.subject}`,
+        replyTo: input.email,
         text: `Name: ${input.name}\nEmail: ${input.email}\nSubject: ${input.subject}\n\nMessage:\n${input.message}`,
         html: `
           <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #eee; padding: 20px; border-radius: 10px;">
@@ -77,12 +91,7 @@ export async function registerRoutes(
             <p style="white-space: pre-wrap;">${input.message}</p>
           </div>
         `,
-      };
-
-      // We don't await the email to avoid delaying the response, but we log the result
-      transporter.sendMail(mailOptions)
-        .then(info => console.log('Email sent: ' + info.response))
-        .catch(err => console.error('Email error: ', err));
+      });
       
       res.status(201).json(inquiry);
     } catch (err) {
@@ -100,6 +109,20 @@ export async function registerRoutes(
     try {
       const input = insertSubscriberSchema.parse(req.body);
       await storage.subscribeNewsletter(input);
+
+      // EMAIL NOTIFICATION
+      sendNotificationEmail({
+        subject: `New Newsletter Subscriber`,
+        text: `A new user has subscribed to the newsletter: ${input.email}`,
+        html: `
+          <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #eee; padding: 20px; border-radius: 10px;">
+            <h2 style="color: #00a896;">New Newsletter Subscription</h2>
+            <p>A new user has subscribed to the Apexora Solutions newsletter.</p>
+            <p><strong>Email:</strong> ${input.email}</p>
+          </div>
+        `,
+      });
+
       res.status(201).json({ message: "Subscribed successfully" });
     } catch (err) {
       if (err instanceof z.ZodError) {
@@ -114,11 +137,11 @@ export async function registerRoutes(
     res.json(list);
   });
 
-  // Explicit route for Medixa Setup v1.3 to ensure correct filename during download
-  app.get("/medixa/Medixa_Setup_v1.3.exe", (req, res) => {
-    const filePath = path.resolve(process.cwd(), "client", "public", "medixa", "Medixa_Setup_v1.3.exe");
+  // Explicit route for Medixa Setup v1.5 to ensure correct filename during download
+  app.get("/medixa/Medixa_Setup_v1.5.exe", (req, res) => {
+    const filePath = path.resolve(process.cwd(), "client", "public", "medixa", "Medixa_Setup_v1.5.exe");
     if (fs.existsSync(filePath)) {
-      res.setHeader('Content-Disposition', 'attachment; filename="Medixa_Setup_v1.3.exe"');
+      res.setHeader('Content-Disposition', 'attachment; filename="Medixa_Setup_v1.5.exe"');
       res.sendFile(filePath);
     } else {
       res.status(404).send("File not found");

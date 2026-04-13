@@ -6,6 +6,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import Home from "@/pages/Home";
 import Medixa from "@/pages/Medixa";
 import NotFound from "@/pages/not-found";
+import { WhatsAppButton } from "@/components/WhatsAppButton";
 
 function Router() {
   return (
@@ -24,6 +25,7 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <Toaster />
+        <WhatsAppButton />
         <Router />
       </TooltipProvider>
     </QueryClientProvider>
