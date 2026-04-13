@@ -35,7 +35,7 @@ export function ContactForm() {
         console.error("Form submission error:", error);
         toast({
           title: "Submission Failed",
-          description: "There was an error sending your message. Please try again.",
+          description: error.message || "There was an error sending your message. Please try again.",
           variant: "destructive",
         });
       }

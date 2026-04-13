@@ -47,10 +47,10 @@ export default function Home() {
         description: "You're now on the list for our latest updates and insights.",
       });
       setNewsletterEmail("");
-    } catch (error) {
+    } catch (error: any) {
       toast({
         title: "Subscription Failed",
-        description: "There was an error subscribing. Please try again.",
+        description: error.message || "There was an error subscribing. Please try again.",
         variant: "destructive",
       });
     } finally {
