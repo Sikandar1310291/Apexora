@@ -82,16 +82,20 @@ export async function registerRoutes(
   }
 
   app.post(api.inquiries.create.path, async (req, res) => {
-    console.log('[API] POST /api/inquiries received');
+    const requestId = Math.random().toString(36).substring(7);
+    console.log(`[${requestId}] [API] POST /api/inquiries received`);
+    
     try {
       const input = api.inquiries.create.input.parse(req.body);
-      console.log('[API] Input validated successfully');
+      console.log(`[${requestId}] [API] Input validated successfully`);
       
       const inquiry = await storage.createInquiry(input);
-      console.log('[API] Inquiry saved to storage');
+      console.log(`[${requestId}] [API] Inquiry saved to storage (ID: ${inquiry.id})`);
       
-      // EMAIL NOTIFICATION - Wrapped in try/catch to ensure it doesn't break the response
-      try {
+      // EMAIL NOTIFICATION - DECIPHERED FROM MAIN FLOW
+      // We use setImmediate to ensure the response is sent to the client first.
+      // This makes the API atomic and resilient to SMTP failures.
+      setImmediate(() => {
         sendNotificationEmail({
           subject: `New Inquiry: ${input.subject}`,
           replyTo: input.email,
@@ -106,32 +110,35 @@ export async function registerRoutes(
               <p style="white-space: pre-wrap;">${input.message}</p>
             </div>
           `,
-        });
-      } catch (emailErr) {
-        console.error('[API] Non-critical error triggering email notification:', emailErr);
-      }
+        }).catch(err => console.error(`[${requestId}] [Email] Background error:`, err));
+      });
       
       res.status(201).json(inquiry);
     } catch (err) {
-      console.error('[API] Error in /api/inquiries handler:', err);
+      console.error(`[${requestId}] [API] Critical failure in /api/inquiries handler:`, err);
       if (err instanceof z.ZodError) {
         return res.status(400).json({
           message: err.errors[0].message,
           field: err.errors[0].path.join('.'),
         });
       }
-      res.status(500).json({ message: "An unexpected error occurred while processing your message." });
+      res.status(500).json({ 
+        message: "Your message was not sent. Please check your internet connection and try again.",
+        id: requestId 
+      });
     }
   });
 
   app.post("/api/newsletter/subscribe", async (req, res) => {
-    console.log('[API] POST /api/newsletter/subscribe received');
+    const requestId = Math.random().toString(36).substring(7);
+    console.log(`[${requestId}] [API] POST /api/newsletter/subscribe received`);
     try {
       const input = insertSubscriberSchema.parse(req.body);
       await storage.subscribeNewsletter(input);
+      console.log(`[${requestId}] [API] Newsletter subscription saved`);
 
-      // EMAIL NOTIFICATION - Wrapped in try/catch to ensure it doesn't break the response
-      try {
+      // EMAIL NOTIFICATION - BACKGROUNDED
+      setImmediate(() => {
         sendNotificationEmail({
           subject: `New Newsletter Subscriber`,
           text: `A new user has subscribed to the newsletter: ${input.email}`,
@@ -142,18 +149,16 @@ export async function registerRoutes(
               <p><strong>Email:</strong> ${input.email}</p>
             </div>
           `,
-        });
-      } catch (emailErr) {
-        console.error('[API] Non-critical error triggering newsletter notification:', emailErr);
-      }
+        }).catch(err => console.error(`[${requestId}] [Email] Background error:`, err));
+      });
 
       res.status(201).json({ message: "Subscribed successfully" });
     } catch (err) {
-      console.error('[API] Error in /api/newsletter/subscribe handler:', err);
+      console.error(`[${requestId}] [API] Critical failure in newsletter handler:`, err);
       if (err instanceof z.ZodError) {
         return res.status(400).json({ message: err.errors[0].message });
       }
-      res.status(500).json({ message: "Internal server error" });
+      res.status(500).json({ message: "Unable to process subscription at this time.", id: requestId });
     }
   });
 

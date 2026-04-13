@@ -48,6 +48,7 @@ export default function Home() {
       });
       setNewsletterEmail("");
     } catch (error: any) {
+      console.error("[Newsletter] Subscription error:", error);
       toast({
         title: "Subscription Failed",
         description: error.message || "There was an error subscribing. Please try again.",

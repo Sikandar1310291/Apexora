@@ -26,7 +26,7 @@ export function ContactForm() {
     mutate(data, {
       onSuccess: () => {
         toast({
-          title: "Message Sent",
+          title: "Message Sent!",
           description: "We've received your inquiry and will get back to you soon.",
         });
         form.reset();
@@ -46,6 +46,7 @@ export function ContactForm() {
     <motion.form
       onSubmit={form.handleSubmit(onSubmit)}
       className="glass-panel p-6 md:p-10 rounded-3xl space-y-6"
+      data-ver="H1.0.1" // HARDENED_V1 - To verify deployment
       initial={{ opacity: 0, x: 20 }}
       whileInView={{ opacity: 1, x: 0 }}
       viewport={{ once: true }}

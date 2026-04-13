@@ -30,14 +30,36 @@ app.use((req, res, next) => {
 
 const httpServer = createServer(app);
 
-let routesRegistered = false;
+let routesRegisteredPromise: Promise<void> | null = null;
 
 export default async function handler(req: Request, res: Response) {
-  if (!routesRegistered) {
-    await registerRoutes(httpServer, app);
-    routesRegistered = true;
+  const start = Date.now();
+  
+  // Ensure routes are only registered once, handling concurrent requests correctly
+  if (!routesRegisteredPromise) {
+    console.log('[Vercel] Initializing routes for the first time...');
+    routesRegisteredPromise = (async () => {
+      try {
+        await registerRoutes(httpServer, app);
+        console.log('[Vercel] Routes registered successfully.');
+      } catch (err) {
+        console.error('[Vercel] Failed to register routes:', err);
+        routesRegisteredPromise = null; // Reset to allow retry on next request
+        throw err;
+      }
+    })();
   }
   
+  await routesRegisteredPromise;
+  
   // Handle the request using the express app
-  return app(req, res);
+  try {
+    return app(req, res);
+  } catch (err) {
+    console.error('[Vercel] Unhandled error in Express app:', err);
+    res.status(500).json({ 
+      message: "Internal Server Error",
+      timestamp: new Date().toISOString()
+    });
+  }
 }
