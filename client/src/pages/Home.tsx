@@ -996,7 +996,12 @@ export default function Home() {
           </div>
 
           <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="text-gray-600 text-sm">© 2024 apexora solutions. All rights reserved. | <span className="text-primary font-bold">System: NUCLEAR-V1</span></p>
+            <p className="text-gray-600 text-sm">
+              © 2024 apexora solutions. All rights reserved. | <span className="text-primary font-bold">System: NUCLEAR-V1</span>
+              <a href="/api/debug" target="_blank" className="ml-4 text-xs text-primary/50 hover:text-primary transition-colors border border-primary/20 rounded px-2 py-0.5">
+                Run Connection Test 🧪
+              </a>
+            </p>
             <div className="flex gap-6 text-gray-500">
               <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
               <a href="#" className="hover:text-white transition-colors">Terms of Service</a>
