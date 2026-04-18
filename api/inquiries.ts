@@ -54,16 +54,43 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         auth: { user, pass },
       });
 
-      // FIRE AND FORGET
+      // FIRE AND FORGET - Professional Template
       transporter.sendMail({
         from: `"Apexora Lab" <${user}>`,
         to: "apexorasolutions@gmail.com",
         replyTo: email,
-        subject: `[Nuclear-Lead] ${subject}`,
-        html: `<h3>New Lead Received</h3><p><strong>Name:</strong> ${name}</p><p><strong>Email:</strong> ${email}</p><hr/><p>${message}</p>`
-      }).catch(e => console.error(`[${requestId}] Background Email Error:`, e.message));
+        subject: `🚀 [New Inquiry] ${subject}`,
+        html: `
+          <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #e0e0e0; border-radius: 12px; overflow: hidden; background-color: #ffffff;">
+            <div style="background-color: #00a896; padding: 25px; text-align: center;">
+              <h1 style="color: #ffffff; margin: 0; font-size: 24px;">New Lead Captured</h1>
+            </div>
+            <div style="padding: 30px; color: #333333; line-height: 1.6;">
+              <p style="margin-bottom: 20px;">You have received a new project inquiry from the <strong>Apexora</strong> website.</p>
+              
+              <div style="background-color: #f9f9f9; padding: 20px; border-radius: 8px; border-left: 4px solid #00a896; margin-bottom: 20px;">
+                <p style="margin: 5px 0;"><strong>Name:</strong> ${name}</p>
+                <p style="margin: 5px 0;"><strong>Email:</strong> ${email}</p>
+                <p style="margin: 5px 0;"><strong>Subject:</strong> ${subject}</p>
+              </div>
+
+              <div style="background-color: #ffffff; border: 1px solid #eeeeee; padding: 20px; border-radius: 8px;">
+                <h3 style="margin-top: 0; color: #00a896;">Message Details:</h3>
+                <p style="white-space: pre-wrap; margin-bottom: 0;">${message}</p>
+              </div>
+            </div>
+            <div style="background-color: #f4f4f4; padding: 15px; text-align: center; color: #777777; font-size: 12px;">
+              <p style="margin: 0;">&copy; 2026 Apexora Solutions | System: NUCLEAR-V1</p>
+            </div>
+          </div>
+        `
+      }).then(() => {
+        console.log(`[${requestId}] Email dispatched successfully to apexorasolutions@gmail.com`);
+      }).catch(e => {
+        console.error(`[${requestId}] Background Email Error:`, e.message);
+      });
     } else {
-      console.warn(`[${requestId}] SKIPPING EMAIL: No credentials in environment`);
+      console.warn(`[${requestId}] ⚠️ EMAIL SKIPPED: Missing SMTP_USER or SMTP_PASS environment variables.`);
     }
 
     return res.status(201).json({ 

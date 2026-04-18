@@ -81,7 +81,7 @@ export async function registerRoutes(
 
       // Always background this with a silent catch
       transporter.sendMail(mailOptions)
-        .then(info => console.log('[Email] Handed off successfully:', info.messageId))
+        .then(info => console.log(`[Email] Handed off successfully to apexorasolutions@gmail.com: ${info.messageId}`))
         .catch(err => console.error('[Email] Background SMTP Error (Silent):', (err as Error).message));
         
     } catch (err: any) {
@@ -102,22 +102,34 @@ export async function registerRoutes(
       const inquiry = await storage.createInquiry(input);
       console.log(`[${requestId}] [API] Inquiry saved to storage (ID: ${inquiry.id})`);
       
-      // EMAIL NOTIFICATION - DECIPHERED FROM MAIN FLOW
-      // We use setImmediate to ensure the response is sent to the client first.
-      // This makes the API atomic and resilient to SMTP failures.
+      // EMAIL NOTIFICATION - Professional Template
       setImmediate(() => {
         sendNotificationEmail({
-          subject: `New Inquiry: ${input.subject}`,
+          subject: `🚀 [New Inquiry] ${input.subject}`,
           replyTo: input.email,
           text: `Name: ${input.name}\nEmail: ${input.email}\nSubject: ${input.subject}\n\nMessage:\n${input.message}`,
           html: `
-            <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #eee; padding: 20px; border-radius: 10px;">
-              <h2 style="color: #00a896;">New Inquiry from Apexora Solutions</h2>
-              <p><strong>Name:</strong> ${input.name}</p>
-              <p><strong>Email:</strong> ${input.email}</p>
-              <p><strong>Subject:</strong> ${input.subject}</p>
-              <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
-              <p style="white-space: pre-wrap;">${input.message}</p>
+            <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #e0e0e0; border-radius: 12px; overflow: hidden; background-color: #ffffff;">
+              <div style="background-color: #00a896; padding: 25px; text-align: center;">
+                <h1 style="color: #ffffff; margin: 0; font-size: 24px;">New Lead Captured</h1>
+              </div>
+              <div style="padding: 30px; color: #333333; line-height: 1.6;">
+                <p style="margin-bottom: 20px;">You have received a new project inquiry from the <strong>Apexora</strong> website.</p>
+                
+                <div style="background-color: #f9f9f9; padding: 20px; border-radius: 8px; border-left: 4px solid #00a896; margin-bottom: 20px;">
+                  <p style="margin: 5px 0;"><strong>Name:</strong> ${input.name}</p>
+                  <p style="margin: 5px 0;"><strong>Email:</strong> ${input.email}</p>
+                  <p style="margin: 5px 0;"><strong>Subject:</strong> ${input.subject}</p>
+                </div>
+
+                <div style="background-color: #ffffff; border: 1px solid #eeeeee; padding: 20px; border-radius: 8px;">
+                  <h3 style="margin-top: 0; color: #00a896;">Message Details:</h3>
+                  <p style="white-space: pre-wrap; margin-bottom: 0;">${input.message}</p>
+                </div>
+              </div>
+              <div style="background-color: #f4f4f4; padding: 15px; text-align: center; color: #777777; font-size: 12px;">
+                <p style="margin: 0;">&copy; 2026 Apexora Solutions | System: NUCLEAR-V1</p>
+              </div>
             </div>
           `,
         }).catch(err => console.error(`[${requestId}] [Email] Background error:`, err));
@@ -148,16 +160,28 @@ export async function registerRoutes(
       await storage.subscribeNewsletter(input);
       console.log(`[${requestId}] [API] Newsletter subscription saved`);
 
-      // EMAIL NOTIFICATION - BACKGROUNDED
+      // EMAIL NOTIFICATION - Professional Template
       setImmediate(() => {
         sendNotificationEmail({
-          subject: `New Newsletter Subscriber`,
+          subject: `📩 [New Subscriber] ${input.email}`,
           text: `A new user has subscribed to the newsletter: ${input.email}`,
           html: `
-            <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #eee; padding: 20px; border-radius: 10px;">
-              <h2 style="color: #00a896;">New Newsletter Subscription</h2>
-              <p>A new user has subscribed to the Apexora Solutions newsletter.</p>
-              <p><strong>Email:</strong> ${input.email}</p>
+            <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #e0e0e0; border-radius: 12px; overflow: hidden; background-color: #ffffff;">
+              <div style="background-color: #00a896; padding: 25px; text-align: center;">
+                <h1 style="color: #ffffff; margin: 0; font-size: 24px;">Newsletter Subscription</h1>
+              </div>
+              <div style="padding: 30px; color: #333333; line-height: 1.6;">
+                <p style="margin-bottom: 20px;">Great news! A new user has subscribed to the <strong>Apexora</strong> newsletter.</p>
+                
+                <div style="background-color: #f9f9f9; padding: 20px; border-radius: 8px; border-left: 4px solid #00a896; margin-bottom: 20px;">
+                  <p style="margin: 5px 0;"><strong>Subscriber Email:</strong> <a href="mailto:${input.email}" style="color: #00a896; text-decoration: none;">${input.email}</a></p>
+                </div>
+
+                <p style="color: #777777; font-size: 14px;">You can now include this user in your next marketing campaign.</p>
+              </div>
+              <div style="background-color: #f4f4f4; padding: 15px; text-align: center; color: #777777; font-size: 12px;">
+                <p style="margin: 0;">&copy; 2026 Apexora Solutions | System: NUCLEAR-V1</p>
+              </div>
             </div>
           `,
         }).catch(err => console.error(`[${requestId}] [Email] Background error:`, err));
