@@ -495,7 +495,7 @@ export default function Home() {
             <h1 className="text-4xl md:text-7xl font-display font-bold leading-tight mb-6 mt-4">
               Transform Your Ideas Into <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary min-h-[1.2em] inline-block">
-                {currentText}
+                Scalable Software Solutions
                 <span className="animate-pulse text-white">|</span>
               </span>
             </h1>
