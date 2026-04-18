@@ -91,15 +91,20 @@ export default function Medixa() {
                 The ultimate Windows-based pharmacy management solution. Streamline your operations, manage inventory with precision, and scale your pharmaceutical business with our professional SaaS platform.
               </p>
 
-              <div className="flex flex-wrap gap-4">
-                <a 
-                  href="/medixa/Installer_Output/Medixa_Setup_v1.7.zip" 
-                  download="Medixa_Setup_v1.7.zip"
-                  className="px-8 py-4 rounded-2xl bg-primary text-background font-bold text-lg flex items-center gap-3 hover:bg-white transition-all shadow-[0_0_20px_rgba(0,168,150,0.3)] group"
-                >
-                  <Download className="w-6 h-6 group-hover:bounce" />
-                  Download Software
-                </a>
+              <div className="flex flex-col gap-4">
+                <div className="flex flex-wrap gap-4">
+                  <a 
+                    href="https://github.com/Sikandar1310291/Apexora/raw/main/client/public/medixa/Installer_Output/Medixa_Setup_v1.7.zip" 
+                    className="px-8 py-4 rounded-2xl bg-primary text-background font-bold text-lg flex items-center gap-3 hover:bg-white transition-all shadow-[0_0_20px_rgba(0,168,150,0.3)] group"
+                  >
+                    <Download className="w-6 h-6 group-hover:bounce" />
+                    Download Securely via GitHub
+                  </a>
+                </div>
+                <div className="flex items-center gap-2 text-xs text-muted-foreground bg-white/5 p-3 rounded-xl border border-white/10 max-w-sm">
+                  <ShieldCheck className="w-4 h-4 text-primary shrink-0" />
+                  <p>If your browser flags the file as "uncommon," click <b>Keep</b>. Our software is verified safe but is currently building domain reputation.</p>
+                </div>
               </div>
             </motion.div>
 
