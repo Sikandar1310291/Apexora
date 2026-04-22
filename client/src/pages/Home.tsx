@@ -10,6 +10,7 @@ import { useTestimonials } from "@/hooks/use-testimonials";
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
 import splashVideo from "@assets/vedio_1767300785946.mp4";
+import heroVideo from "@assets/Futuristic_AI_City_Video_Generation.mp4";
 import mobileSplashImg from "@assets/mobile_splash_v3.png";
 import logo from "@assets/logo_1767381786801.png";
 import { useToast } from "@/hooks/use-toast";
@@ -476,8 +477,23 @@ export default function Home() {
 
       {/* HERO SECTION */}
       <section className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
+        {/* Background Video */}
+        <div className="absolute inset-0 w-full h-full overflow-hidden z-0">
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="absolute inset-0 w-full h-full object-cover scale-125"
+          >
+            <source src={heroVideo} type="video/mp4" />
+          </video>
+          {/* Overlay to ensure text readability */}
+          <div className="absolute inset-0 bg-black/60" />
+        </div>
+
         {/* Background Gradients */}
-        <div className="absolute top-0 left-0 w-full h-full overflow-hidden z-0">
+        <div className="absolute top-0 left-0 w-full h-full overflow-hidden z-0 pointer-events-none">
           <div className="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] rounded-full bg-primary/10 blur-[120px]" />
           <div className="absolute bottom-[-20%] right-[-10%] w-[50%] h-[50%] rounded-full bg-secondary/10 blur-[120px]" />
           <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-[0.03]" />

@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /api/
 
-Sitemap: https://apexorasolutions.site/sitemap.xml
+Sitemap: https://www.apexorasolutions.site/sitemap.xml
