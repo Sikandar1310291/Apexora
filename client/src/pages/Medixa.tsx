@@ -94,7 +94,7 @@ export default function Medixa() {
               <div className="flex flex-col gap-4">
                 <div className="flex flex-wrap gap-4">
                   <a 
-                    href="https://github.com/Sikandar1310291/Apexora/raw/main/client/public/medixa/Installer_Output/Medixa_Setup_v1.7.zip" 
+                    href="https://github.com/Sikandar1310291/Apexora/raw/main/medixa/Installer_Output/Medixa_Setup_v1.7.exe" 
                     className="px-8 py-4 rounded-2xl bg-primary text-background font-bold text-lg flex items-center gap-3 hover:bg-white transition-all shadow-[0_0_20px_rgba(0,168,150,0.3)] group"
                   >
                     <Download className="w-6 h-6 group-hover:bounce" />

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, ArrowRight, ChevronDown, Package } from "lucide-react";
+import { Menu, X, ArrowRight, ChevronDown, Package, Code2, Search, Scale } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -37,6 +37,15 @@ export function Navigation() {
       isDropdown: true,
       items: [
         { name: "Medixa Pharmacy SaaS", href: "/software", icon: <Package className="w-4 h-4 mr-2" /> }
+      ]
+    },
+    {
+      name: "Solutions",
+      isDropdown: true,
+      items: [
+        { name: "Oracle APEX Development", href: "/oracle-apex-development", icon: <Code2 className="w-4 h-4 mr-2" /> },
+        { name: "SEO Services in Lahore", href: "/seo-services-lahore", icon: <Search className="w-4 h-4 mr-2" /> },
+        { name: "Apexora vs Systems Limited", href: "/why-apexora-vs-systems", icon: <Scale className="w-4 h-4 mr-2" /> },
       ]
     },
     { name: "About", href: "#about" },
