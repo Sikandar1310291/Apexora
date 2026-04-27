@@ -5,9 +5,6 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import Home from "@/pages/Home";
 import Medixa from "@/pages/Medixa";
-import OracleApex from "@/pages/OracleApex";
-import SeoLahore from "@/pages/SeoLahore";
-import WhyApexoraVsSystems from "@/pages/WhyApexoraVsSystems";
 import NotFound from "@/pages/not-found";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 
@@ -17,9 +14,6 @@ function Router() {
       <Route path="/" component={Home} />
       <Route path="/software" component={Medixa} />
       <Route path="/medixa" component={Medixa} />
-      <Route path="/oracle-apex-development" component={OracleApex} />
-      <Route path="/seo-services-lahore" component={SeoLahore} />
-      <Route path="/why-apexora-vs-systems" component={WhyApexoraVsSystems} />
       {/* Fallback to 404 */}
       <Route component={NotFound} />
     </Switch>

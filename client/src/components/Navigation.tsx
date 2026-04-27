@@ -39,15 +39,6 @@ export function Navigation() {
         { name: "Medixa Pharmacy SaaS", href: "/software", icon: <Package className="w-4 h-4 mr-2" /> }
       ]
     },
-    {
-      name: "Solutions",
-      isDropdown: true,
-      items: [
-        { name: "Oracle APEX Development", href: "/oracle-apex-development", icon: <Code2 className="w-4 h-4 mr-2" /> },
-        { name: "SEO Services in Lahore", href: "/seo-services-lahore", icon: <Search className="w-4 h-4 mr-2" /> },
-        { name: "Apexora vs Systems Limited", href: "/why-apexora-vs-systems", icon: <Scale className="w-4 h-4 mr-2" /> },
-      ]
-    },
     { name: "About", href: "#about" },
     { name: "Services", href: "#services" },
     { name: "Testimonials", href: "#testimonials" },

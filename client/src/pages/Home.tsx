@@ -18,6 +18,14 @@ import { apiRequest } from "@/lib/queryClient";
 
 export default function Home() {
   const [showSplash, setShowSplash] = useState(true);
+  useEffect(() => {
+    // Safety fallback: if video/animation fails to trigger setShowSplash(false),
+    // we force it after 7 seconds so the user isn't stuck.
+    const timer = setTimeout(() => {
+      setShowSplash(false);
+    }, 7000);
+    return () => clearTimeout(timer);
+  }, []);
   const [textIndex, setTextIndex] = useState(0);
   const typingTexts = ["Digital Reality", "Scalable Software", "Modern Experiences"];
   const [currentText, setCurrentText] = useState("");
@@ -25,7 +33,7 @@ export default function Home() {
   const { toast } = useToast();
   const [newsletterEmail, setNewsletterEmail] = useState("");
   const [isSubscribing, setIsSubscribing] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
+  const [isMobile, setIsMobile] = useState(typeof window !== 'undefined' ? window.innerWidth < 768 : false);
 
   useEffect(() => {
     const checkMobile = () => {
@@ -269,6 +277,7 @@ export default function Home() {
       <AnimatePresence>
         {showSplash && (
           <motion.div
+            key="splash-screen"
             initial={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 1 }}
@@ -681,7 +690,7 @@ export default function Home() {
               <Trophy className="w-10 h-10 text-primary" />
             </div>
             <h3 className="text-3xl font-display font-bold text-white mb-2">Muhammad Awais</h3>
-            <p className="text-primary font-bold uppercase tracking-widest text-sm mb-6">Founder & CEO | AI Engineer</p>
+            <p className="text-primary font-bold uppercase tracking-widest text-sm mb-6">Founder & CTO</p>
             <div className="flex items-center gap-3 text-muted-foreground bg-white/5 p-4 rounded-2xl border border-white/5 group-hover:border-primary/20 transition-all">
               <Smartphone className="w-5 h-5 text-primary" />
               <span className="font-mono text-lg font-bold text-white">+92 310 4222105</span>
