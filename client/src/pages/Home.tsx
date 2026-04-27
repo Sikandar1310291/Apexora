@@ -690,7 +690,7 @@ export default function Home() {
               <Trophy className="w-10 h-10 text-primary" />
             </div>
             <h3 className="text-3xl font-display font-bold text-white mb-2">Muhammad Awais</h3>
-            <p className="text-primary font-bold uppercase tracking-widest text-sm mb-6">Founder & CTO</p>
+            <p className="text-primary font-bold uppercase tracking-widest text-sm mb-6">Founder & CTO | Ai Engineer</p>
             <div className="flex items-center gap-3 text-muted-foreground bg-white/5 p-4 rounded-2xl border border-white/5 group-hover:border-primary/20 transition-all">
               <Smartphone className="w-5 h-5 text-primary" />
               <span className="font-mono text-lg font-bold text-white">+92 310 4222105</span>
